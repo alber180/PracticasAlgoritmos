@@ -1,0 +1,82 @@
+	Práctica 1 de Algoritmos:
+	Luis Alfonso Rodriguez Rodriguez
+	Alberto Paz Pérez
+	Sergio Rego Criado
+	
+	------------------------------------Introducción--------------------------------------
+	
+	En esta práctica comprobamos empíricamente el análisis teórico de la eficencia de 
+	tres algoritmos que permiten calcular el n-ésimo término de la sucesión de Finonacci. 
+	Implementamos todas las funciones en lenguaje C, compiladas mediante gcc y ejecutadas 
+	desde la terminal, para obtener una serie de resultados sobre la complejidad de cada 
+	función.
+	
+	--------------------------------Detalles del Ordenador--------------------------------
+	
+	Detalles del ordenador utilizado:
+	CPU: 11th Gen Intel® Core™ i7-1165G7 × 8
+	Memoria RAM: 12,0 GiB
+	Sistema Operativo: Ubuntu 24.04.1 LTS
+	Versión del compilador: 13.2.0
+	
+	----------------------------------------Nota------------------------------------------
+	
+	Las unidades de los tiempos de ejcución estan medidas en microsegundos (μs):
+	*: tiempo promedio (en μs) de 1.000 ejecuciones del algoritmo.
+	
+	---------------------------------------Tabla------------------------------------------
+	
+	fib1:
+	Cota subestimada:	1.1^n
+	Cota ajustada:		1.61^n	
+	Cota sobreestimada;	2^n
+	
+	   n            t(n)     t(n)/1.1^n    t(n)/1.61^n       t(n)/2^n
+           2          0.019*       0.015702       0.007330       0.004750
+           4          0.061*       0.041664       0.009079       0.003812
+           8          0.470*       0.219258       0.010411       0.001836
+          16          9.140*       1.989130       0.004485       0.000139
+          32      13271.000      628.546951       0.003195       0.000003
+	
+	La cota ajustada tiende a 0.0032
+	
+	---------------------------------------Tabla------------------------------------------
+	
+	fib2:
+	Cota subestimada:	n^0.8
+	Cota ajustada:		n
+	Cota sobreestimada;	n*log(n)
+	
+	
+               n            t(n)     t(n)/n^0.8         t(n)/n     t(n)/(n*log(n))
+            1000          1.567*       0.006238       0.001567          0.000263
+           10000         15.431*       0.009736       0.001543          0.000178
+          100000        158.766*       0.015877       0.001588          0.000140
+         1000000       1697.000        0.026896       0.001697          0.000129
+        10000000      17326.000        0.043521       0.001733          0.000107
+	
+	La cota ajustada tiende a 0.0017
+	
+	---------------------------------------Tabla------------------------------------------
+	
+	fib3:
+	Cota subestimada:	sqrt(log(n))
+	Cota ajustada:		log(n)
+	Cota sobreestimada;	n^0.5
+	
+               n            t(n)    t(n)/sqrt(log(n))    t(n)/log(n)     t(n)/n^0.5
+            1000          0.039*             0.014839       0.005646       0.001233
+           10000          0.047*             0.015487       0.005103       0.000470
+          100000          0.060*             0.017683       0.005212       0.000190
+         1000000          0.074*             0.019909       0.005356       0.000074
+        10000000          0.086*             0.021421       0.005336       0.000027
+	
+	La cota ajustada tiende a 0.0053
+	
+	-------------------------------------Conclusión----------------------------------------
+	
+	Durante la realización de esta práctica y analizando los resultados finales podemos 
+	observar que el fib1 es el algoritmo menos eficiente, mientras que el fib3 es con
+	diferencia notable el más rápido.
+	
+	---------------------------------------------------------------------------------------

@@ -17,7 +17,15 @@ int main()
     mostrar_cerrada(diccionario, tam);
     colisiones = insertar_cerrada("AB", "Rego, Criado", &diccionario, tam, dispersionB, exploracion_doble);
     printf("Colisiones 'Sergio' : %d\n", colisiones);
-    colisiones = insertar_cerrada("AB", "Rego, Criado", &diccionario, tam, dispersionB, exploracion_doble);
+    colisiones = insertar_cerrada("AB", "Rego, mateo", &diccionario, tam, dispersionB, exploracion_doble);
+    printf("Colisiones 'Sergio' : %d\n", colisiones);
+    colisiones = insertar_cerrada("AB", "Rego, mateo1", &diccionario, tam, dispersionB, exploracion_doble);
+    printf("Colisiones 'Sergio' : %d\n", colisiones);
+    colisiones = insertar_cerrada("AB", "Rego, mateo2", &diccionario, tam, dispersionB, exploracion_doble);
+    printf("Colisiones 'Sergio' : %d\n", colisiones);
+    colisiones = insertar_cerrada("AB", "Rego, mateo3", &diccionario, tam, dispersionB, exploracion_doble);
+    printf("Colisiones 'Sergio' : %d\n", colisiones);
+    colisiones = insertar_cerrada("AB", "Rego, mateo4", &diccionario, tam, dispersionB, exploracion_doble);
     printf("Colisiones 'Sergio' : %d\n", colisiones);
     mostrar_cerrada(diccionario, tam);
 

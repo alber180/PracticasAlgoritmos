@@ -33,8 +33,10 @@ void mostrar_cerrada(tabla_cerrada diccionario, int tam);
 
 pos dispersionA(char *clave, int tamTabla);
 pos dispersionB(char *clave, int tamTabla);
+int ndispersion(char *clave, int tamTabla);
 
 pos exploracion_lineal(pos pos_ini, int incremento);
 pos exploracion_cuadratica(pos pos_ini, int incremento);
 pos exploracion_doble(pos pos_ini, int incremento);
+int leer_sinonimos(item datos[]);
 #endif

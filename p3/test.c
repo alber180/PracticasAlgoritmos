@@ -34,7 +34,7 @@ int main()
 {
     int tam = 11;
     tabla_cerrada diccionario;
-    char *nombres[10] = {"ANA", "LUIS", "JOSE", "OLGA", "ROSA", "IVAN", "CARLOS"};
+    char *nombres[7] = {"ANA", "LUIS", "JOSE", "OLGA", "ROSA", "IVAN", "CARLOS"};
 
     printf("*****TABLA CERRADA LINEAL*****\n");
     inicializar_cerrada(&diccionario, tam);

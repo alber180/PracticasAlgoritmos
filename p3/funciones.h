@@ -4,6 +4,10 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdbool.h>
+#include <time.h>
+#include <sys/time.h>
+#include <math.h>
 #define LONGITUD_CLAVE 30
 #define LONGITUD_SINONIMOS 300
 #define MIN(X, Y) ((X) < (Y) ? (X) : (Y))
@@ -39,5 +43,8 @@ pos exploracion_lineal(pos pos_ini, int incremento);
 pos exploracion_cuadratica(pos pos_ini, int incremento);
 pos exploracion_doble(pos pos_ini, int incremento);
 pos exploracion_doble_test(int pos_ini, int num_intento);
+
+void mostrarCabecera();
+void imprimirSalida(int n, bool esMenor, double t, double x, double y, double z);
 int leer_sinonimos(item datos[]);
 #endif

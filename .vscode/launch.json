@@ -1,0 +1,30 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug p3",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/p3/p3.out",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/p3",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "build-p3",
+            "miDebuggerPath": "/usr/bin/gdb",
+            "logging": {
+                "engineLogging": false,
+                "traceResponse": false
+            }
+        }
+    ]
+}

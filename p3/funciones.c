@@ -44,6 +44,12 @@ pos exploracion_doble(int pos_ini, int num_intento)
     return (pos_ini + (10007 - num_intento) % 10007);
 }
 
+pos exploracion_doble_test(int pos_ini, int num_intento)
+{
+    int h1 = (5 - (pos_ini) % 5);
+    return pos_ini + (num_intento * h1) % 11;
+}
+
 void inicializar_cerrada(tabla_cerrada *diccionario, int tam)
 {
     *diccionario = malloc(tam * sizeof(item));
@@ -55,8 +61,6 @@ void inicializar_cerrada(tabla_cerrada *diccionario, int tam)
     for (int i = 0; i < tam; i++)
     {
         (*diccionario)[i].ocupada = 0;
-        (*diccionario)[i].clave[0] = '\0';
-        (*diccionario)[i].sinonimos[0] = '\0';
     }
 }
 

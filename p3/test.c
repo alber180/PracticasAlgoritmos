@@ -33,19 +33,22 @@ void mostrarTest(int tam, tabla_cerrada diccionario, pos (*dispersion)(char *, i
 int main()
 {
     int tam = 11;
+    tabla_cerrada diccionario;
     char *nombres[10] = {"ANA", "LUIS", "JOSE", "OLGA", "ROSA", "IVAN", "CARLOS"};
 
-    tabla_cerrada diccionario;
+    printf("*****TABLA CERRADA LINEAL*****\n");
     inicializar_cerrada(&diccionario, tam);
     mostrarTest(tam, diccionario, ndispersion, exploracion_lineal, nombres);
     free(diccionario);
 
+    printf("*****TABLA CERRADA CUADRATICA*****\n");
     inicializar_cerrada(&diccionario, tam);
     mostrarTest(tam, diccionario, ndispersion, exploracion_cuadratica, nombres);
     free(diccionario);
 
+    printf("*****TABLA CERRADA DOBLE*****\n");
     inicializar_cerrada(&diccionario, tam);
-    mostrarTest(tam, diccionario, ndispersion, exploracion_doble, nombres);
+    mostrarTest(tam, diccionario, ndispersion, exploracion_doble_test, nombres);
     free(diccionario);
     return 0;
 }

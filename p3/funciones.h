@@ -38,5 +38,6 @@ int ndispersion(char *clave, int tamTabla);
 pos exploracion_lineal(pos pos_ini, int incremento);
 pos exploracion_cuadratica(pos pos_ini, int incremento);
 pos exploracion_doble(pos pos_ini, int incremento);
+pos exploracion_doble_test(int pos_ini, int num_intento);
 int leer_sinonimos(item datos[]);
 #endif

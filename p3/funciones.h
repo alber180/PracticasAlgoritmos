@@ -50,12 +50,12 @@ int leer_sinonimos(item datos[]);
 
 void mostrarCabecera();
 void imprimirSalida(int n, bool esMenor, double t, double x, double y, double z);
-// double datos(unsigned int (*dispersion)(char *, int),
-//            unsigned int (*resol_colisiones)(int pos_ini, int num_intento), bool *esMenor,
-//          tabla_cerrada diccionario, item data[], int tam, int n, int k);
-double medirTiempos(unsigned int (*dispersion)(char *, int), int total_palabras, item datos[], tabla_cerrada d_tabla, int n, bool *esMenor, unsigned int (*resol_colisiones)(int pos_ini, int num_intento));
+ double datos(unsigned int (*dispersion)(char *, int),
+            unsigned int (*resol_colisiones)(int pos_ini, int num_intento), bool *esMenor,
+         tabla_cerrada diccionario, item data[], int tam, int n);
 void inicializar_semilla();
 double microsegundos();
+int obtener_K(int t, bool *esMenor);
 void dispA_lineal(item data[], int ins);
 void dispA_cuadr(item data[], int ins);
 void dispA_doble(item data[], int ins);

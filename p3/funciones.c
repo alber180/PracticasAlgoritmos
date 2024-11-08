@@ -177,7 +177,8 @@ double datos(pos (*dispersion)(char *, int),
         buscar_cerrada(data[n_al].clave, diccionario, tam, &col, dispersion, resol_colisiones);
     }
     tb = microsegundos();
-    t1 = tb - ta;
+    t = tb - ta;
+    /*
     ta = microsegundos();
     for (i = 0; i < n; i++)
     {
@@ -186,7 +187,9 @@ double datos(pos (*dispersion)(char *, int),
     }
     tb = microsegundos();
     t2 = tb - ta;
+   
     t = t1 - t2;
+    */
     if (t < 500)
     {
         *esMenor = true;

@@ -25,24 +25,24 @@ typedef item *tabla_cerrada;
 void inicializar_cerrada(tabla_cerrada *diccionario, int tam);
 
 pos buscar_cerrada(char *clave, tabla_cerrada diccionario, int tam,
-                   int *colisiones, pos (*dispersion)(char *, int),
-                   pos (*resol_colisiones)(pos pos_ini, int num_intento));
+                   int *colisiones, unsigned int (*dispersion)(char *, int),
+                   unsigned int (*resol_colisiones)(int pos_ini, int num_intento));
 
 int insertar_cerrada(char *clave, char *sinonimos,
                      tabla_cerrada *diccionario, int tam,
-                     pos (*dispersion)(char *, int),
-                     pos (*resol_colisiones)(pos pos_ini, int num_intento));
+                     unsigned int (*dispersion)(char *, int),
+                     unsigned int (*resol_colisiones)(pos pos_ini, int num_intento));
 
 void mostrar_cerrada(tabla_cerrada diccionario, int tam);
 
-pos dispersionA(char *clave, int tamTabla);
-pos dispersionB(char *clave, int tamTabla);
-pos ndispersion(char *clave, int tamTabla);
+unsigned int dispersionA(char *clave, int tamTabla);
+unsigned int dispersionB(char *clave, int tamTabla);
+unsigned int ndispersion(char *clave, int tamTabla);
 
-pos exploracion_lineal(pos pos_ini, int incremento);
-pos exploracion_cuadratica(pos pos_ini, int incremento);
-pos exploracion_doble(pos pos_ini, int incremento);
-pos exploracion_doble_test(int pos_ini, int num_intento);
+unsigned int exploracion_lineal(pos pos_ini, int incremento);
+unsigned int exploracion_cuadratica(pos pos_ini, int incremento);
+unsigned int exploracion_doble(pos pos_ini, int incremento);
+unsigned int exploracion_doble_test(int pos_ini, int num_intento);
 
 void mostrarCabecera();
 void imprimirSalida(int n, bool esMenor, double t, double x, double y, double z);
@@ -50,9 +50,10 @@ int leer_sinonimos(item datos[]);
 
 void mostrarCabecera();
 void imprimirSalida(int n, bool esMenor, double t, double x, double y, double z);
-double datos(pos (*dispersion)(char *, int),
-             pos (*resol_colisiones)(pos pos_ini, int num_intento), bool *esMenor,
-             tabla_cerrada diccionario, item data[], int tam, int n, int k);
+// double datos(unsigned int (*dispersion)(char *, int),
+//            unsigned int (*resol_colisiones)(int pos_ini, int num_intento), bool *esMenor,
+//          tabla_cerrada diccionario, item data[], int tam, int n, int k);
+double medirTiempos(unsigned int (*dispersion)(char *, int), int total_palabras, item datos[], tabla_cerrada d_tabla, int n, bool *esMenor, unsigned int (*resol_colisiones)(int pos_ini, int num_intento));
 void inicializar_semilla();
 double microsegundos();
 void dispA_lineal(item data[], int ins);

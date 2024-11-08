@@ -1,6 +1,6 @@
 #include "funciones.h"
 
-pos dispersionA(char *clave, int tamTabla)
+unsigned int dispersionA(char *clave, int tamTabla)
 {
     int i, n = MIN(8, strlen(clave));
     unsigned int valor = clave[0];
@@ -9,7 +9,7 @@ pos dispersionA(char *clave, int tamTabla)
     return valor % tamTabla;
 }
 
-pos dispersionB(char *clave, int tamTabla)
+unsigned int dispersionB(char *clave, int tamTabla)
 {
     int i, n = MIN(8, strlen(clave));
     unsigned int valor = clave[0];
@@ -18,7 +18,7 @@ pos dispersionB(char *clave, int tamTabla)
     return valor % tamTabla;             /* multipicar por 32 */
 }
 
-pos ndispersion(char *clave, int tamTabla)
+unsigned int ndispersion(char *clave, int tamTabla)
 {
     if (strcmp(clave, "ANA") == 0)
         return 7;
@@ -29,22 +29,22 @@ pos ndispersion(char *clave, int tamTabla)
     return 6;
 }
 
-pos exploracion_lineal(pos pos_ini, int incremento)
+unsigned int exploracion_lineal(pos pos_ini, int incremento)
 {
     return pos_ini + incremento;
 }
 
-pos exploracion_cuadratica(pos pos_ini, int incremento)
+unsigned int exploracion_cuadratica(pos pos_ini, int incremento)
 {
     return pos_ini + incremento * incremento;
 }
 
-pos exploracion_doble(int pos_ini, int num_intento)
+unsigned int exploracion_doble(int pos_ini, int num_intento)
 {
     return (pos_ini + (10007 - num_intento) % 10007);
 }
 
-pos exploracion_doble_test(int pos_ini, int num_intento)
+unsigned int exploracion_doble_test(int pos_ini, int num_intento)
 {
     int h1 = (5 - (pos_ini) % 5);
     return pos_ini + (num_intento * h1) % 11;
@@ -65,8 +65,8 @@ void inicializar_cerrada(tabla_cerrada *diccionario, int tam)
 }
 
 pos buscar_cerrada(char *clave, tabla_cerrada diccionario, int tam,
-                   int *colisiones, pos (*dispersion)(char *, int),
-                   pos (*resol_colisiones)(pos pos_ini, int num_intento))
+                   int *colisiones, unsigned int (*dispersion)(char *, int),
+                   unsigned int (*resol_colisiones)(int pos_ini, int num_intento))
 {
     pos ini, i;
     ini = dispersion(clave, tam);
@@ -83,8 +83,8 @@ pos buscar_cerrada(char *clave, tabla_cerrada diccionario, int tam,
 
 int insertar_cerrada(char *clave, char *sinonimos,
                      tabla_cerrada *diccionario, int tam,
-                     pos (*dispersion)(char *, int),
-                     pos (*resol_colisiones)(pos pos_ini, int num_intento))
+                     unsigned int (*dispersion)(char *, int),
+                     unsigned int (*resol_colisiones)(pos pos_ini, int num_intento))
 {
     pos i;
     int colisiones = 0;
@@ -161,9 +161,9 @@ void inicializar_semilla()
 {
     srand(time(NULL));
 }
-
-double datos(pos (*dispersion)(char *, int),
-             pos (*resol_colisiones)(pos pos_ini, int num_intento), bool *esMenor,
+/*
+double datos(unsigned int (*dispersion)(char *, int),
+             unsigned int (*resol_colisiones)(int pos_ini, int num_intento), bool *esMenor,
              tabla_cerrada diccionario, item data[], int tam, int n, int k)
 {
     int col = 0, n_al, i, j;
@@ -177,8 +177,7 @@ double datos(pos (*dispersion)(char *, int),
         buscar_cerrada(data[n_al].clave, diccionario, tam, &col, dispersion, resol_colisiones);
     }
     tb = microsegundos();
-    t = tb - ta;
-    /*
+    t1 = tb - ta;
     ta = microsegundos();
     for (i = 0; i < n; i++)
     {
@@ -187,9 +186,8 @@ double datos(pos (*dispersion)(char *, int),
     }
     tb = microsegundos();
     t2 = tb - ta;
-   
     t = t1 - t2;
-    */
+
     if (t < 500)
     {
         *esMenor = true;
@@ -208,13 +206,76 @@ double datos(pos (*dispersion)(char *, int),
         ta = microsegundos();
         for (i = 0; i < k; i++)
         {
-            n_al = rand() % 19062;
-            col = 0;
+            for (j = 0; j < n; j++)
+            {
+                n_al = rand() % 19062;
+                col = 0;
+            }
         }
         tb = microsegundos();
         t2 = tb - ta;
         t = (t1 - t2) / k;
+    }38197
+    return t;
+}
+*/
+
+double medirTiempos(unsigned int (*dispersion)(char *, int), int total_palabras, item datos[], tabla_cerrada d_tabla, int n, bool *esMenor, unsigned int (*resol_colisiones)(int pos_ini, int num_intento))
+{
+    *esMenor = false;
+    double t1 = 0, t2 = 0, t3 = 0, tf = 0, ta = 0, tb = 0, t = 0;
+    int col_buscar = 0, x = 0, y = 0, i = 0, k = 10000;
+    t1 = microsegundos();
+    while (y < n)
+    {
+        x = rand() % total_palabras;
+        col_buscar = 0;
+        buscar_cerrada(datos[x].clave, d_tabla, 38197, &col_buscar, dispersion, resol_colisiones);
+        y++;
     }
+    t2 = microsegundos();
+    tf = (t2 - t1);
+    y = 0;
+    ta = microsegundos();
+    for (y = 0; y < n; y++)
+    {
+        x = rand() % 38197;
+        col_buscar = 0;
+    }
+    tb = microsegundos();
+    t3 = (tb - ta);
+    t = (tf - t3);
+    y = 0;
+    if (t < 500)
+    {
+        *esMenor = true;
+        t1 = microsegundos();
+        for (i = 0; i < k; i++)
+        {
+            y = 0;
+            while (y < n)
+            {
+                x = rand() % 38197;
+                col_buscar = 0;
+                buscar_cerrada(datos[x].clave, d_tabla, 19062, &col_buscar, dispersion, resol_colisiones);
+                y++;
+            }
+        }
+        t2 = microsegundos();
+        tf = (t2 - t1);
+        ta = microsegundos();
+        for (i = 0; i < (k * n); i++)
+        {
+            col_buscar = 0;
+            x = rand() % 38197;
+        }
+
+        tb = microsegundos();
+        t3 = (tb - ta);
+        t = (tf - t3) / k;
+    }
+    y = 0;
+    col_buscar = 0;
     return t;
 }
 
@@ -247,7 +308,8 @@ void dispA_lineal(item data[], int ins)
     mostrarCabecera();
     for (n = 125; n <= 16000; n *= 2)
     {
-        t = datos(dispersionA, exploracion_lineal, &esMenor, diccionario, data, tam, n, k);
+        t = medirTiempos(dispersionA, tam, data, diccionario, n, &esMenor, exploracion_lineal);
+        // t = datos(dispersionA, exploracion_lineal, &esMenor, diccionario, data, tam, n, k);
         x = t / pow(n, 0.8);
         y = t / n;
         z = t / (n * log(n));
@@ -271,7 +333,8 @@ void dispA_cuadr(item data[], int ins)
     mostrarCabecera();
     for (n = 125; n <= 16000; n *= 2)
     {
-        t = datos(dispersionA, exploracion_cuadratica, &esMenor, diccionario, data, tam, n, k);
+        t = medirTiempos(dispersionA, tam, data, diccionario, n, &esMenor, exploracion_cuadratica);
+        // t = datos(dispersionA, exploracion_cuadratica, &esMenor, diccionario, data, tam, n, k);
         x = t / pow(n, 0.8);
         y = t / n;
         z = t / (n * log(n));
@@ -295,7 +358,8 @@ void dispA_doble(item data[], int ins)
     mostrarCabecera();
     for (n = 125; n <= 16000; n *= 2)
     {
-        t = datos(dispersionA, exploracion_doble, &esMenor, diccionario, data, tam, n, k);
+        t = medirTiempos(dispersionA, tam, data, diccionario, n, &esMenor, exploracion_doble);
+        // t = datos(dispersionA, exploracion_doble, &esMenor, diccionario, data, tam, n, k);
         x = t / pow(n, 0.8);
         y = t / n;
         z = t / (n * log(n));
@@ -319,7 +383,8 @@ void dispB_lineal(item data[], int ins)
     mostrarCabecera();
     for (n = 125; n <= 16000; n *= 2)
     {
-        t = datos(dispersionB, exploracion_lineal, &esMenor, diccionario, data, tam, n, k);
+        t = medirTiempos(dispersionB, tam, data, diccionario, n, &esMenor, exploracion_lineal);
+        // t = datos(dispersionB, exploracion_lineal, &esMenor, diccionario, data, tam, n, k);
         x = t / pow(n, 0.8);
         y = t / n;
         z = t / (n * log(n));
@@ -343,7 +408,8 @@ void dispB_cuadr(item data[], int ins)
     mostrarCabecera();
     for (n = 125; n <= 16000; n *= 2)
     {
-        t = datos(dispersionB, exploracion_cuadratica, &esMenor, diccionario, data, tam, n, k);
+        t = medirTiempos(dispersionB, tam, data, diccionario, n, &esMenor, exploracion_cuadratica);
+        // t = datos(dispersionB, exploracion_cuadratica, &esMenor, diccionario, data, tam, n, k);
         x = t / pow(n, 0.8);
         y = t / n;
         z = t / (n * log(n));
@@ -367,7 +433,8 @@ void dispB_doble(item data[], int ins)
     mostrarCabecera();
     for (n = 125; n <= 16000; n *= 2)
     {
-        t = datos(dispersionB, exploracion_doble, &esMenor, diccionario, data, tam, n, k);
+        t = medirTiempos(dispersionB, tam, data, diccionario, n, &esMenor, exploracion_doble);
+        // t = datos(dispersionB, exploracion_doble, &esMenor, diccionario, data, tam, n, k);
         x = t / pow(n, 0.8);
         y = t / n;
         z = t / (n * log(n));

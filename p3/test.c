@@ -1,7 +1,7 @@
 #include "funciones.h"
 
-void mostrarTest(int tam, tabla_cerrada diccionario, pos (*dispersion)(char *, int),
-                 pos (*resol_colisiones)(pos pos_ini, int num_intento), char *nombres[])
+void mostrarTest(int tam, tabla_cerrada diccionario, unsigned int (*dispersion)(char *, int),
+                 unsigned int (*resol_colisiones)(int pos_ini, int num_intento), char *nombres[])
 {
     int i, colisiones = 0;
     pos p;

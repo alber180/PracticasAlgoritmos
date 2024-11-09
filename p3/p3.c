@@ -11,43 +11,41 @@ int main()
     int ins;
     inicializar_semilla();
     ins = leer_sinonimos(data);
-    
-        printf("DISPERSION A - EXPLORACION LINEAL\n");
-        for (int i = 0; i < 1; i++)
-        {
-            dispA_lineal(data, ins);
-        }
 
-        printf("DISPERSION A - EXPLORACION CUADRATICA\n");
-        for (int i = 0; i < 1; i++)
-        {
-            dispA_cuadr(data, ins);
-        }
-
-        printf("DISPERSION A - EXPLORACION DOBLE\n");
-        for (int i = 0; i < 1; i++)
-        {
-            dispA_doble(data, ins);
-        }
-
-    
-        printf("DISPERSION B - EXPLORACION LINEAL\n");
-        for (int i = 0; i < 1; i++)
-        {
-            dispB_lineal(data, ins);
-        }
-    
-    printf("DISPERSION B - EXPLORACION CUADRATICA\n");
-    for (int i = 0; i < 1; i++)
+    // Insertamos y leemos los datos para hacer las mediciones:
+    printf("\n***DISPERSION A - EXPLORACION LINEAL\n");
+    for (int i = 0; i < 3; i++)
     {
-        dispB_cuadr(data, ins);
+        datos(data, ins, dispersionA, exploracion_lineal);
     }
-    
-printf("DISPERSION B - EXPLORACION DOBLE\n");
-for (int i = 0; i < 1; i++)
-{
-    dispB_doble(data, ins);
-}
 
+    printf("\n***DISPERSION A - EXPLORACION CUADRATICA\n");
+    for (int i = 0; i < 3; i++)
+    {
+        datos(data, ins, dispersionA, exploracion_cuadratica);
+    }
+
+    printf("\n***DISPERSION A - EXPLORACION DOBLE\n");
+    for (int i = 0; i < 3; i++)
+    {
+        datos(data, ins, dispersionA, exploracion_doble);
+    }
+    printf("\n***DISPERSION B - EXPLORACION LINEAL\n");
+    for (int i = 0; i < 3; i++)
+    {
+        datos(data, ins, dispersionB, exploracion_lineal);
+    }
+
+    printf("\n***DISPERSION B - EXPLORACION CUADRATICA\n");
+    for (int i = 0; i < 3; i++)
+    {
+        datos(data, ins, dispersionB, exploracion_cuadratica);
+    }
+
+    printf("\n***DISPERSION B - EXPLORACION DOBLE\n");
+    for (int i = 0; i < 3; i++)
+    {
+        datos(data, ins, dispersionB, exploracion_doble);
+    }
     return 0;
 }

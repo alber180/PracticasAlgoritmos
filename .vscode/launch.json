@@ -2,13 +2,13 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug p3",
+            "name": "Debug p4",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/p3/p3.out",
+            "program": "${workspaceFolder}/p4/p4.out",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}/p3",
+            "cwd": "${workspaceFolder}/p4",
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",
@@ -19,7 +19,7 @@
                     "ignoreFailures": true
                 }
             ],
-            "preLaunchTask": "build-p3",
+            "preLaunchTask": "build-p4",
             "miDebuggerPath": "/usr/bin/gdb",
             "logging": {
                 "engineLogging": false,

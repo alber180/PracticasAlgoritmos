@@ -1,0 +1,214 @@
+	Práctica 3 de Algoritmos:
+	Luis Alfonso Rodríguez Rodríguez
+	Alberto Paz Pérez
+	Sergio Rego Criado
+	
+	------------------------------------Introducción--------------------------------------
+	
+	En esta práctica implementaremos una tabla de dispersión (hash table), una estructura 
+	de datos que se utiliza para almacenar y recuperar datos de manera eficiente mediante 
+	la asociación de "claves" con un valor determinado por una función dada. Con ella,
+	realizaremos distintos cálculos, como el número de colisiones o los tiempos de 
+	búsqueda de elementos aleatorios, para luego analizar su complejidad computacional.
+
+	En esta ocasión trabajaremos con un diccionario con 19062 entradas, extraídas de un
+	archivo "sinonimos.txt" y cada una con su correspondiente lista de sinónimos.
+	Implementaremos dos métodos de dispersión distintos para trabajar con los elementos 
+	de la lista, y en los casos en los que se generen colisiones (cuando dos elementos
+	distintos generan el mismo valor en la función de dispersión), las podremos resolver
+	con 3 procedimientos distintos: lineal, cuadrático y doble.
+	
+	--------------------------------Detalles del Ordenador--------------------------------
+	
+	Detalles del ordenador utilizado:
+	CPU: 11th Gen Intel® Core™ i7-1165G7 × 8
+	Memoria RAM: 12,0 GiB
+	Sistema Operativo: Ubuntu 24.04.1 LTS
+	Versión del compilador: 13.2.0
+	
+	----------------------------------------Nota------------------------------------------
+	
+	Las unidades de los tiempos de ejecución están medidas en microsegundos (μs).
+	
+	Para mayor precisión hemos ejecutado todos los algoritmos "k" veces, según el rango
+	en el que este la primera medición del tiempo:
+	
+				         t < 500 -----> k = 10000
+				  500 <= t < 4000 ----> k = 1000
+				 4000 <= t < 12000 ---> k = 100
+				12000 <= t < 120000 --> k = 10
+					 t >= 120000 -> k = 1
+	
+	Cabe destacar que el tiempo promedio puede estar en un intervalo distinto a la
+	primera medición obtenida. Para saber que k será utilizada hemos añadido una columna 
+	con sus valores.
+	
+	---------------------------------------Tabla------------------------------------------
+	
+	Dispersión A - Exploración Lineal:
+	
+	f(n) Cota subestimada:		n^0,8
+	g(n) Cota ajustada:		n
+	h(n) Cota sobreestimada:	n*log(n)
+	
+	Insertando 19062 elementos... Numero total de colisiones: 172623183
+	Buscando n elementos...
+
+	    n       k          t(n)       t(n)/f(n)      t(n)/g(n)      t(n)/h(n)
+    	  125     100      7283.980      153.052608      58.271840      12.068777
+          250      10     14527.300      175.320580      58.109200      10.524244
+          500      10     29197.700      202.382352      58.395400       9.396473
+         1000      10     59032.900      235.014208      59.032900       8.545888
+         2000      10    117005.300      267.535574      58.502650       7.696803
+         4000       1    234065.000      307.389115      58.516250       7.055209
+         8000       1    467764.000      352.821307      58.470500       6.505977
+        16000       1    939650.000      407.070970      58.728125       6.066739
+
+	La sucesión de cotas ajustadas tiende a un valor en el rango [58 , 59]
+	
+	---------------------------------------Tabla------------------------------------------
+
+	Dispersión A - Exploración Cuadrática:
+	
+	f(n) Cota subestimada:		n^0,8
+	g(n) Cota ajustada:		n
+	h(n) Cota sobreestimada:	n*log(n)
+	
+	Insertando 19062 elementos... Numero total de colisiones: 2106581
+	Buscando n elementos...
+	
+	    n       k          t(n)       t(n)/f(n)      t(n)/g(n)      t(n)/h(n)
+	  125   10000       130.627        2.744772       1.045019       0.216436
+          250   10000       261.042        3.150348       1.044168       0.189111
+          500    1000       523.878        3.631233       1.047756       0.168596
+         1000    1000      1044.391        4.157795       1.044391       0.151191
+         2000    1000      2093.397        4.786605       1.046698       0.137707
+         4000     100      4177.550        5.486226       1.044388       0.125920
+         8000     100      8350.210        6.298330       1.043776       0.116140
+        16000      10     16697.400        7.233573       1.043588       0.107805
+	
+	La sucesión de cotas ajustadas tiende a 1.04
+	
+	---------------------------------------Tabla------------------------------------------
+	
+	Dispersión A - Exploración Doble:
+	
+	f(n) Cota subestimada:		n^0,8
+	g(n) Cota ajustada:		n
+	h(n) Cota sobreestimada:	n*log(n)
+	
+	Insertando 19062 elementos... Numero total de colisiones: 1451531
+	Buscando n elementos...
+	
+	    n       k          t(n)       t(n)/f(n)      t(n)/g(n)      t(n)/h(n)
+    	  125   10000       113.423        2.383274       0.907386       0.187930
+          250   10000       226.994        2.739438       0.907974       0.164445
+          500   10000       453.058        3.140345       0.906115       0.145804
+         1000    1000       905.736        3.605800       0.905736       0.131119
+         2000    1000      1814.718        4.149399       0.907359       0.119375
+         4000    1000      3634.130        4.772572       0.908533       0.109540
+         8000     100      7247.250        5.466398       0.905906       0.100800
+        16000      10     14440.500        6.255849       0.902531       0.093233
+	
+	La sucesión de cotas ajustadas tiende a 0.90
+	
+	---------------------------------------Tabla------------------------------------------
+	
+	Dispersión B - Exploración Lineal:
+	
+	f(n) Cota subestimada:		n^0,8
+	g(n) Cota ajustada:		n
+	h(n) Cota sobreestimada:	n*log(n)
+	
+	Insertando 19062 elementos... Numero total de colisiones: 16965
+	Buscando n elementos...
+
+	    n       k          t(n)       t(n)/f(n)      t(n)/g(n)      t(n)/h(n)
+          125   10000         9.627        0.202276       0.075013       0.015950
+          250   10000        18.682        0.225461       0.074728       0.013534
+          500   10000        37.263        0.258284       0.074525       0.011992
+         1000   10000        74.043        0.294769       0.074043       0.010719
+         2000   10000       148.274        0.339032       0.074137       0.009754
+         4000   10000       297.431        0.390605       0.074358       0.008965
+         8000    1000       594.129        0.448135       0.074266       0.008264
+        16000    1000      1188.924        0.515060       0.074308       0.007676
+	
+	La sucesión de cotas ajustadas tiende a 0.074
+	
+	---------------------------------------Tabla------------------------------------------
+	
+	Dispersión B - Exploración Cuadrática:
+
+	f(n) Cota subestimada:		n^0,8
+	g(n) Cota ajustada:		n
+	h(n) Cota sobreestimada:	n*log(n)
+	
+	Insertando 19062 elementos... Numero total de colisiones: 13366
+	Buscando n elementos...
+
+	    n       k          t(n)       t(n)/f(n)      t(n)/g(n)      t(n)/h(n)
+          125   10000         9.298        0.195376       0.072386       0.015406
+          250   10000        17.631        0.212783       0.070526       0.012773
+          500   10000        35.139        0.243563       0.070278       0.011308
+         1000   10000        70.217        0.279538       0.070217       0.010165
+         2000   10000       140.570        0.321417       0.070285       0.009247
+         4000   10000       281.287        0.369404       0.070322       0.008479
+         8000    1000       563.811        0.425267       0.070476       0.007842
+        16000    1000      1127.221        0.488330       0.070451       0.007278
+	
+	La sucesión de cotas ajustadas tiende a 0.070
+	
+	---------------------------------------Tabla------------------------------------------
+
+	Dispersión B - Exploración Doble:
+	
+	f(n) Cota subestimada:		n^0,8
+	g(n) Cota ajustada:		n
+	h(n) Cota sobreestimada:	n*log(n)
+	
+	Insertando 19062 elementos... Numero total de colisiones: 19401
+	Buscando n elementos...
+
+	    n       k          t(n)       t(n)/f(n)      t(n)/g(n)      t(n)/h(n)
+	  125   10000         9.483        0.199263       0.073866       0.015713
+          250   10000        18.221        0.219902       0.072886       0.013200
+          500   10000        36.369        0.252091       0.072738       0.011704
+         1000   10000        72.395        0.288210       0.072395       0.010480
+         2000   10000       145.209        0.332024       0.072604       0.009552
+         4000   10000       291.175        0.382390       0.072794       0.008777
+         8000    1000       582.879        0.439649       0.072860       0.008107
+        16000    1000      1160.632        0.502804       0.072540       0.007493
+        
+	La sucesión de cotas ajustadas tiende a 0.072
+	
+	-------------------------------------Conclusión----------------------------------------
+	
+	Las complejidades de ambos métodos de dispersión es la misma (O(n)), ya que ambas 
+	funciones en el peor de los casos tienen que recorrer toda la lista para insertar cada 
+	elemento del diccionario. De la misma manera, las funciones de resolución de colisiones 
+	tienden a la misma complejidad lineal (O(n)), debido a que en el peor de los casos, 
+	todas tienen que recorrer toda la lista para encontrar un espacio vacío. Sin embargo 
+	algunas funciones generan mayores colisiones frente a otras y, por ende, mayor tiempo 
+	de búsqueda.
+	
+	En primer lugar, en la dispersión A el peor caso es cuando se resuelvan las colisiones 
+	linealmente, debido a que simplemente devuelve la siguiente posición en la tabla, 
+	creando así grandes bloques de celdas ocupadas y generando más colisiones.
+	En el caso de la cuadrática, esta será considerablemente superior a la lineal, ya que 
+	dispersa mejor los elementos dentro de la tabla, pero da problemas si las claves
+	tienen un patrón similar de colisión, dado que puede terminar revisando posiciones 
+	repetidamente. Por último, la exploración doble resulta la mejor opción en esta 
+	dispersión, ya que evita un patrón fijo de organización y tiene mejor rendimiento a 
+	medida que la tabla se llena a diferencia de la cuadrática.
+	
+	Por otro lado, en la dispersión B aunque en colisiones la mejor sea la cuadrática, 
+	seguida de la lineal y posteriormente la doble, en tiempo todas serán bastante 
+	similares y con diferencias mínimas, pero podríamos determinar que la mejor sería 
+	la exploración cuadrática y la peor la lineal. Esta similitud en tiempos puede deberse 
+	a que la propia función de dispersión ya hace un muy buen trabajo buscando de manera 
+	eficiente los elementos del diccionario.
+	
+	Para finalizar, comparando ambas dispersiones podemos deducir que la dispersión B es 
+	considerablemente mejor en términos de colisiones y tiempos de búsqueda respecto a la 
+	dispersión A en absolutamente todos los casos. 
+	---------------------------------------------------------------------------------------

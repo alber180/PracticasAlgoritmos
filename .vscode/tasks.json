@@ -2,15 +2,19 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "build-p3",
+            "label": "build-p4",
             "type": "shell",
             "command": "make",
-            "args": ["p3"],
+            "args": [
+                "p4"
+            ],
             "group": {
                 "kind": "build",
                 "isDefault": true
             },
-            "problemMatcher": ["$gcc"]
+            "problemMatcher": [
+                "$gcc"
+            ]
         }
     ]
 }

@@ -27,22 +27,31 @@ void mostrarCabecera()
 
 bool isEmptyHeap(const pmonticulo m)
 {
-    return m->ultimo = -1;
+    return (m->ultimo = -1);
 }
 
-void iniMonticulo(pmonticulo m)
+void iniMonticulo(pmonticulo *m)
 {
-    m = malloc(sizeof(struct monticulo));
-    if (m == NULL)
+    *m = malloc(sizeof(struct monticulo));
+    if (*m == NULL)
     {
         perror("No hay espacio suficiente\n");
     }
-    m->ultimo = -1;
+    (*m)->ultimo = -1;
 }
 
 void insertarMonticulo(pmonticulo m, int x)
 {
-    m->ultimo++;
+    if (m->ultimo == TAM)
+    {
+        perror("Monticulo lleno");
+    }
+    else
+    {
+        m->ultimo = m->ultimo + 1;
+        m->vector[m->ultimo] = x;
+        flotar(m, m->ultimo);
+    }
 }
 
 void intercambiar(int *v, int *u)
@@ -56,41 +65,127 @@ void intercambiar(int *v, int *u)
 void hundir(pmonticulo m, int i)
 {
     int j, hijoIzq, hijoDer;
-    for (j = 0; j < i; j++)
+
+    do
     {
         hijoIzq = 2 * i + 1;
         hijoDer = 2 * i + 2;
         j = i;
-        if (hijoDer <= TAM && m->vector[hijoDer] > m->vector[i])
+        if (hijoDer <= m->ultimo && m->vector[hijoDer] < m->vector[i])
         {
             i = hijoDer;
         }
-        if (hijoIzq <= TAM && m->vector[hijoIzq] > m->vector[i])
+        if (hijoIzq <= m->ultimo && m->vector[hijoIzq] < m->vector[i])
         {
             i = hijoIzq;
         }
-        intercambiar(m->vector[i], m->vector[j]);
+        intercambiar(&(m->vector[i]), &(m->vector[j]));
+    } while (j != i);
+}
+
+void flotar(pmonticulo m, int i)
+{
+    int p, h;
+    h = i;
+    p = (h - 1) / 2;
+    while (i > 1 && m->vector[p] < m->vector[h])
+    {
+        intercambiar(&(m->vector[p]), &(m->vector[h]));
+        h = p;
+        p /= 2;
     }
 }
 
 void quitarMenor(pmonticulo m)
 {
-    if (!isEmptyHeap(m))
+    if (isEmptyHeap(m))
     {
+        perror("Monticulo vacio");
+    }
+    else
+    {
+        m->vector[0] = m->vector[m->ultimo];
+        m->ultimo = m->ultimo - 1;
+        if (m->ultimo >= 0)
+        {
+            hundir(m, 0);
+        }
     }
 }
 
 int consultarMenor(const pmonticulo m)
 {
-    if (!isEmptyHeap(m))
-    {
-        return m->vector[0];
-    }
-}
-void crearMonticulo(pmonticulo m, int v[], int n)
-{
+    return m->vector[0];
 }
 
+void crearMonticulo(pmonticulo m, int v[], int n)
+{
+    int i, j;
+    for (i = 0; i < n; i++)
+    {
+        m->vector[i] = v[i];
+    }
+    m->ultimo = n;
+    for (j = (m->ultimo / 2); j > 0; j--)
+    {
+        hundir(m, j);
+    }
+}
+
+void mostrar(pmonticulo m)
+{
+    int i;
+    printf("[");
+    for (i = 0; i < m->ultimo; i++)
+    {
+        printf("%d, ", m->vector[i]);
+    }
+    printf("]\n");
+}
+
+void mostrarmont(pmonticulo m)
+{
+    int nivel = 0;                           // Nivel actual
+    int elementos = 1;                       // Número de elementos en el nivel actual
+    int i = 0;                               // Índice del vector del montículo
+    int maxNivel = (int)log2(m->ultimo) + 1; // Total de niveles en el montículo
+
+    while (i < m->ultimo) // Cambiado de 'i <= m->ultimo' a 'i < m->ultimo'
+    {
+        // Calcular espacios iniciales para centrar los elementos del nivel actual
+        int totalEspacios = (1 << (maxNivel - nivel)) - 1;
+
+        // Espaciado inicial antes de imprimir los elementos del nivel actual
+        for (int espacio = 0; espacio < totalEspacios; espacio++)
+        {
+            printf("   ");
+        }
+
+        // Imprimir los elementos del nivel actual
+        for (int j = 0; j < elementos && i < m->ultimo; j++, i++) // Cambiado 'i <= m->ultimo' a 'i < m->ultimo'
+        {
+            printf("%3d", m->vector[i]);
+
+            // Espaciado entre elementos en el mismo nivel
+            if (j < elementos - 1 && i < m->ultimo)
+            {
+                for (int espacio = 0; espacio < (1 << (maxNivel - nivel + 1)) - 1; espacio++)
+                {
+                    printf("   ");
+                }
+            }
+        }
+
+        // Salto de línea después de imprimir todos los elementos del nivel actual
+        printf("\n\n");
+
+        // Pasar al siguiente nivel
+        nivel++;
+        elementos *= 2; // Cada nivel tiene el doble de elementos que el anterior
+
+        // La condición 'if (i > m->ultimo)' ya no es necesaria debido a la condición del bucle 'while'
+    }
+}
 /*
 // Segun el tiempo, ejecutamos las mediciones 'k' veces para mayor precision
 int obtener_K(int t)

@@ -21,13 +21,16 @@ void imprimirSalida(int n, int k, double t, double x, double y, double z);
 void inicializar_semilla();
 double microsegundos();
 
-void iniMonticulo(pmonticulo m);
+void iniMonticulo(pmonticulo *m);
 void insertarMonticulo(pmonticulo m, int x);
 void quitarMenor(pmonticulo m);
 int consultarMenor(const pmonticulo m);
 void crearMonticulo(pmonticulo m, int v[], int n);
 void hundir(pmonticulo m, int i);
+void flotar(pmonticulo m, int i);
 void intercambiar(int *v, int *u);
+void mostrarmont(pmonticulo m);
+void mostrar(pmonticulo m);
 
 /*
 double tiempos(unsigned int (*dispersion)(char *, int),

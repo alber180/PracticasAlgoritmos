@@ -7,17 +7,12 @@
 #include <sys/time.h>
 int main()
 {
-    pmonticulo m;
+    int i;
     inicializar_semilla();
-    iniMonticulo(&m);
-    int v[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-    for (int i = 0; i < 10; i++)
+    for (i = 0; i < 3; i++)
     {
-        m->vector[i] = v[i];
+        montAleatorio();
     }
-    m->ultimo = 10;
-    mostrarmont(m);
-    mostrar(m);
-    free(m);
+
     return 0;
 }

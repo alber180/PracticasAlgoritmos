@@ -31,19 +31,12 @@ void flotar(pmonticulo m, int i);
 void intercambiar(int *v, int *u);
 void mostrarmont(pmonticulo m);
 void mostrar(pmonticulo m);
-
-/*
-double tiempos(unsigned int (*dispersion)(char *, int),
-               unsigned int (*resol_colisiones)(int pos_ini, int num_intento),
-               tabla_cerrada diccionario, item data[], int tam,
-               int n, int *k);
-double tiempos_K_veces(unsigned int (*dispersion)(char *, int),
-                       unsigned int (*resol_colisiones)(int pos_ini, int num_intento),
-                       tabla_cerrada diccionario, item data[],
-                       int tam, int n, int k);
-
-
-int obtener_K(int t);
-void datos(item data[], int ins, unsigned int (*dispersion)(char *, int),
-           unsigned int (*resol_colisiones)(int pos_ini, int num_intento));*/
+void OrdenarPorMonticulos(int *v[], int n);
+void aleatorio(int v[], int n);
+void descendente(int v[], int n);
+void ascendente(int v[], int n);
+bool ordenado(int v[], int n);
+void montDescendente();
+void montAscendente();
+void montAleatorio();
 #endif

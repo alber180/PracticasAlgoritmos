@@ -27,7 +27,7 @@ void mostrarCabecera()
 
 bool isEmptyHeap(const pmonticulo m)
 {
-    return (m->ultimo = -1);
+    return (m->ultimo == -1);
 }
 
 void iniMonticulo(pmonticulo *m)
@@ -36,6 +36,7 @@ void iniMonticulo(pmonticulo *m)
     if (*m == NULL)
     {
         perror("No hay espacio suficiente\n");
+        return;
     }
     (*m)->ultimo = -1;
 }
@@ -88,7 +89,7 @@ void flotar(pmonticulo m, int i)
     int p, h;
     h = i;
     p = (h - 1) / 2;
-    while (i > 1 && m->vector[p] < m->vector[h])
+    while (h > 0 && m->vector[p] > m->vector[h])
     {
         intercambiar(&(m->vector[p]), &(m->vector[h]));
         h = p;
@@ -100,7 +101,7 @@ void quitarMenor(pmonticulo m)
 {
     if (isEmptyHeap(m))
     {
-        perror("Monticulo vacio");
+        fprintf(stderr, "Monticulo vacio\n");
     }
     else
     {
@@ -121,12 +122,17 @@ int consultarMenor(const pmonticulo m)
 void crearMonticulo(pmonticulo m, int v[], int n)
 {
     int i, j;
+    if (n > TAM)
+    {
+        perror("El array es demasiado grande para el montículo");
+        return;
+    }
     for (i = 0; i < n; i++)
     {
         m->vector[i] = v[i];
     }
-    m->ultimo = n;
-    for (j = (m->ultimo / 2); j > 0; j--)
+    m->ultimo = n - 1;
+    for (j = (m->ultimo / 2); j >= 0; j--)
     {
         hundir(m, j);
     }
@@ -186,134 +192,158 @@ void mostrarmont(pmonticulo m)
         // La condición 'if (i > m->ultimo)' ya no es necesaria debido a la condición del bucle 'while'
     }
 }
-/*
-// Segun el tiempo, ejecutamos las mediciones 'k' veces para mayor precision
-int obtener_K(int t)
-{
-    int k = 0;
 
+bool ordenado(int v[], int n)
+{
+    int i;
+    for (i = 1; i < n; i++)
+    {
+        if (v[i - 1] > v[i])
+            return false;
+    }
+    return true;
+}
+
+void OrdenarPorMonticulos(int *v[], int n)
+{
+    int i;
+    pmonticulo m;
+    iniMonticulo(&m);
+    crearMonticulo(m, *v, n);
+    for (i = 1; i <= n; i++)
+    {
+        (*v)[i - 1] = consultarMenor(m);
+        quitarMenor(m);
+    }
+}
+
+void aleatorio(int v[], int n)
+{ /* se generan números pseudoaleatorio entre -n y +n */
+    int i, m = 2 * n + 1;
+    for (i = 0; i < n; i++)
+        v[i] = (rand() % m) - n;
+}
+
+void ascendente(int v[], int n)
+{
+    int i;
+    for (i = 0; i < n; i++)
+        v[i] = i;
+}
+
+void descendente(int v[], int n)
+{
+    int i;
+    for (i = 0; i < n; i++)
+        v[i] = n - 1 - i;
+}
+
+double datos(void (*llenar)(int[], int), bool *esMenor,
+             int v[], int n, int k)
+{
+    int i;
+    double ta, tb, t1, t2, t;
+    *esMenor = false;
+    llenar(v, n);
+    ta = microsegundos();
+    OrdenarPorMonticulos(&v, n);
+    tb = microsegundos();
+    t = tb - ta;
     if (t < 500)
     {
-        k = 10000;
-    }
-    else if (t < 4000)
-    {
-        k = 1000;
-    }
-    else if (t < 12000)
-    {
-        k = 100;
-    }
-    else if (t < 120000)
-    {
-        k = 10;
-    }
-    else
-    {
-        k = 1;
-    }
-    return k;
-}
-
-// Medimos los tiempos "k" veces
-double tiempos_K_veces(unsigned int (*dispersion)(char *, int),
-                       unsigned int (*resol_colisiones)(int pos_ini,
-                                                        int num_intento),
-                       tabla_cerrada diccionario, item data[],
-                       int tam, int n, int k)
-{
-    int col = 0, n_al, i, j;
-    double ta, tb, t1, t2, t;
-    ta = microsegundos();
-
-    for (i = 0; i < k; i++)
-    {
-        for (j = 0; j < n; j++)
+        *esMenor = true;
+        ta = microsegundos();
+        for (i = 0; i < k; i++)
         {
-            n_al = rand() % 19062;
-            col = 0;
-            buscar_cerrada(data[n_al].clave, diccionario, tam, &col, dispersion,
-                           resol_colisiones);
+            llenar(v, n);
+            // Igual hay que restar el crear monticulo en el for de abajo junto con llenar
+            OrdenarPorMonticulos(&v, n);
         }
-    }
-    tb = microsegundos();
-    t1 = tb - ta;
-    ta = microsegundos();
-    for (i = 0; i < k; i++)
-    {
-        for (j = 0; j < n; j++)
-        {
-            n_al = rand() % 19062;
-            col = 0;
-        }
-    }
-    tb = microsegundos();
-    t2 = tb - ta;
-    t = (t1 - t2) / k;
-    return t;
-}
-
-// Medicion de tiempos
-double tiempos(unsigned int (*dispersion)(char *, int),
-               unsigned int (*resol_colisiones)(int pos_ini, int num_intento),
-               tabla_cerrada diccionario, item data[], int tam,
-               int n, int *k)
-{
-    int col = 0, n_al, i;
-    double ta, tb, t1, t2, t;
-    ta = microsegundos();
-    for (i = 0; i < n; i++)
-    {
-        n_al = rand() % 19062;
-        col = 0;
-        buscar_cerrada(data[n_al].clave, diccionario, tam, &col, dispersion,
-                       resol_colisiones);
-    }
-    tb = microsegundos();
-    t1 = tb - ta;
-    ta = microsegundos();
-    for (i = 0; i < n; i++)
-    {
-        n_al = rand() % 19062;
-        col = 0;
-    }
-    tb = microsegundos();
-    t2 = tb - ta;
-    t = t1 - t2;
-    *k = obtener_K(t);
-
-    if (*k > 1)
-    {
-        t = tiempos_K_veces(dispersion, resol_colisiones,
-                            diccionario, data, tam, n, *k);
+        tb = microsegundos();
+        t1 = tb - ta;
+        ta = microsegundos();
+        for (i = 0; i < k; i++)
+            llenar(v, n);
+        tb = microsegundos();
+        t2 = tb - ta;
+        t = (t1 - t2) / k;
     }
     return t;
 }
 
-void datos(item data[], int ins, unsigned int (*dispersion)(char *, int),
-           unsigned int (*resol_colisiones)(int pos_ini, int num_intento))
+void montDescendente()
 {
-    tabla_cerrada diccionario;
+    int n;
+    int *vdesc, k;
+    bool esMenor = false;
     double x, y, z, t;
-    int n, i, tam = 38197, cols = 0, k = 0;
-    inicializar_cerrada(&diccionario, tam);
-    for (i = 0; i < ins; i++)
-    {
-        cols += insertar_cerrada(data[i].clave, data[i].sinonimos, &diccionario,
-                                 tam, dispersion, resol_colisiones);
-    }
-    printf("\nInsertando %d elementos... Numero total de colisiones: %d\n"
-           "Buscando n elementos...\n",
-           ins, cols);
+    k = 10000;
     mostrarCabecera();
-    for (n = 125; n <= 16000; n *= 2)
+
+    for (n = 500; n <= 32000; n *= 2)
     {
-        t = tiempos(dispersion, resol_colisiones, diccionario,
-                    data, tam, n, &k);
-        x = t / pow(n, 0.8);
-        y = t / n;
-        z = t / (n * log(n));
-        imprimirSalida(n, k, t, x, y, z);
+        vdesc = (int *)malloc(n * sizeof(int));
+        if (vdesc == NULL)
+            printf("Error: no se pudo asignar memoria\n");
+        else
+        {
+            t = datos(descendente, &esMenor, vdesc, n, k);
+            x = t / pow(n, 1.8);
+            y = t / pow(n, 2.0);
+            z = t / pow(n, 2.2);
+            imprimirSalida(n, esMenor, t, x, y, z);
+            free(vdesc);
+        }
     }
-    free(diccionario);
-}*/
+}
+
+void montAscendente()
+{
+    int n;
+    int *vasc, k;
+    bool esMenor;
+    double x, y, z, t;
+    k = 10000;
+    mostrarCabecera();
+
+    for (n = 500; n <= 32000; n *= 2)
+    {
+        vasc = (int *)malloc(n * sizeof(int));
+        if (vasc == NULL)
+            printf("Error: no se pudo asignar memoria\n");
+        else
+        {
+            t = datos(ascendente, &esMenor, vasc, n, k);
+            x = t / pow(n, 0.8);
+            y = t / n;
+            z = t / pow(n, 1.2);
+            imprimirSalida(n, esMenor, t, x, y, z);
+            free(vasc);
+        }
+    }
+}
+
+void montAleatorio()
+{
+    int n, *valeo, k;
+    bool esMenor = false;
+    double x, y, z, t;
+    k = 10000;
+    mostrarCabecera();
+
+    for (n = 500; n <= 32000; n *= 2)
+    {
+        valeo = (int *)malloc(n * sizeof(int));
+        if (valeo == NULL)
+            printf("Error: no se pudo asignar memoria\n");
+        else
+        {
+            t = datos(aleatorio, &esMenor, valeo, n, k);
+            x = t / pow(n, 1.9);
+            y = t / pow(n, 2);
+            z = t / pow(n, 2.1);
+            imprimirSalida(n, esMenor, t, x, y, z);
+            free(valeo);
+        }
+    }
+}

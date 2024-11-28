@@ -34,13 +34,13 @@ void descendente(int v[], int n)
         v[i] = n - 1 - i;
 }
 
-void mostrar(pmonticulo m)
+void mostrarVector(int v[], int n)
 {
     int i;
-    printf("[");
-    for (i = 0; i < m->ultimo; i++)
+    printf("[%d", v[0]);
+    for (i = 1; i < n; i++)
     {
-        printf("%d, ", m->vector[i]);
+        printf(", %d", v[i]);
     }
     printf("]\n");
 }
@@ -54,6 +54,14 @@ bool ordenado(int v[], int n)
             return false;
     }
     return true;
+}
+
+void preguntaOrdenado(bool ord)
+{
+    if (ord)
+        printf("Ordenado\n");
+    else
+        printf("No ordenado\n");
 }
 
 void intercambiar(int *v, int *u)
@@ -164,13 +172,13 @@ void crearMonticulo(pmonticulo m, int v[], int n)
     }
 }
 
-void ordenarPorMonticulos(int *v[], pmonticulo m, int n)
+void ordenarPorMonticulos(int v[], pmonticulo m, int n)
 {
     int i;
-    crearMonticulo(m, *v, n);
+    crearMonticulo(m, v, n);
     for (i = 1; i <= n; i++)
     {
-        (*v)[i - 1] = consultarMenor(m);
+        v[i - 1] = consultarMenor(m);
         quitarMenor(m);
     }
 }
@@ -189,20 +197,20 @@ void mostrarCabecera()
            "t(n)/g(n)", "t(n)/h(n)");
 }
 
-double datos(void (*llenar)(int[], int), bool *esMenor,
-             int v[], int n, int k)
+double datos(void (*llenar)(int[], int), bool *esMenor, int v[], int n, int k)
 {
     int i;
     double ta, tb, t1, t2, t;
     pmonticulo m;
     *esMenor = false;
     iniMonticulo(&m);
-    llenar(v, n);
     ta = microsegundos();
-    ordenarPorMonticulos(&v, m, n);
+    llenar(v, n);
+    ordenarPorMonticulos(v, m, n);
     tb = microsegundos();
     t1 = tb - ta;
     ta = microsegundos();
+    llenar(v, n);
     crearMonticulo(m, v, n);
     tb = microsegundos();
     t2 = tb - ta;
@@ -214,7 +222,7 @@ double datos(void (*llenar)(int[], int), bool *esMenor,
         for (i = 0; i < k; i++)
         {
             llenar(v, n);
-            ordenarPorMonticulos(&v, m, n);
+            ordenarPorMonticulos(v, m, n);
         }
         tb = microsegundos();
         t1 = tb - ta;
@@ -222,6 +230,7 @@ double datos(void (*llenar)(int[], int), bool *esMenor,
         for (i = 0; i < k; i++)
         {
             llenar(v, n);
+            crearMonticulo(m, v, n);
         }
         tb = microsegundos();
         t2 = tb - ta;
@@ -249,7 +258,7 @@ void montDescendente()
         {
             t = datos(descendente, &esMenor, vdesc, n, k);
             x = t / n;
-            y = t / pow(n, 1.08);
+            y = t / (n * log(n));
             z = t / pow(n, 1.2);
             imprimirSalida(n, esMenor, t, x, y, z);
             free(vdesc);
@@ -265,7 +274,6 @@ void montAscendente()
     double x, y, z, t;
     k = 10000;
     mostrarCabecera();
-
     for (n = 500; n <= 32000; n *= 2)
     {
         vasc = (int *)malloc(n * sizeof(int));
@@ -275,7 +283,7 @@ void montAscendente()
         {
             t = datos(ascendente, &esMenor, vasc, n, k);
             x = t / n;
-            y = t / pow(n, 1.08);
+            y = t / (n * log(n));
             z = t / pow(n, 1.5);
             imprimirSalida(n, esMenor, t, x, y, z);
             free(vasc);

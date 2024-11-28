@@ -17,7 +17,15 @@ struct monticulo
 typedef struct monticulo *pmonticulo;
 
 void inicializar_semilla();
+void aleatorio(int v[], int n);
+void ascendente(int v[], int n);
+void descendente(int v[], int n);
 void montDescendente();
 void montAscendente();
 void montAleatorio();
+bool ordenado(int v[], int n);
+void preguntaOrdenado(bool ord);
+void mostrarVector(int v[], int n);
+void ordenarPorMonticulos(int v[], pmonticulo m, int n);
+void iniMonticulo(pmonticulo *m);
 #endif

@@ -294,9 +294,9 @@ void medirCrearMonticulo()
         else
         {
             t = datos(aleatorio, crearMonticulo, &esMenor, valeo, n, k);
-            x = t / pow(n, 0.8);
+            x = t / pow(n, 0.9);
             y = t / n;
-            z = t / pow(n, 1.2);
+            z = t / pow(n, 1.1);
             imprimirSalida(n, esMenor, t, x, y, z);
             free(valeo);
         }
@@ -305,24 +305,24 @@ void medirCrearMonticulo()
 
 void medirInsertarMonticulo()
 {
-    int n, *valeo, k;
+    int n, *vdesc, k;
     bool esMenor = false;
     double x, y, z, t;
     k = 10000;
     mostrarCabecera();
     for (n = 500; n <= 256000; n *= 2)
     {
-        valeo = (int *)malloc(n * sizeof(int));
-        if (valeo == NULL)
+        vdesc = (int *)malloc(n * sizeof(int));
+        if (vdesc == NULL)
             printf("Error: no se pudo asignar memoria\n");
         else
         {
-            t = t_insertarMonticulo(aleatorio, &esMenor, valeo, n, k);
+            t = t_insertarMonticulo(descendente, &esMenor, vdesc, n, k);
             x = t / pow(n, 0.8);
             y = t / (n * log(n));
             z = t / pow(n, 1.2);
             imprimirSalida(n, esMenor, t, x, y, z);
-            free(valeo);
+            free(vdesc);
         }
     }
 }
@@ -345,7 +345,7 @@ void montDescendente()
         {
             t = datos(descendente, ordenarPorMonticulos, &esMenor, vdesc, n, k);
             x = t / n;
-            y = t / (n * log(n));
+            y = t / (pow(n, 0.98) * log(n));
             z = t / pow(n, 1.2);
             imprimirSalida(n, esMenor, t, x, y, z);
             free(vdesc);
@@ -370,8 +370,8 @@ void montAscendente()
         {
             t = datos(ascendente, ordenarPorMonticulos, &esMenor, vasc, n, k);
             x = t / n;
-            y = t / (n * log(n));
-            z = t / pow(n, 1.5);
+            y = t / (pow(n, 0.99) * log(n));
+            z = t / pow(n, 1.3);
             imprimirSalida(n, esMenor, t, x, y, z);
             free(vasc);
         }
@@ -396,7 +396,7 @@ void montAleatorio()
             t = datos(aleatorio, ordenarPorMonticulos, &esMenor, valeo, n, k);
             x = t / n;
             y = t / (n * log(n));
-            z = t / pow(n, 1.5);
+            z = t / pow(n, 1.3);
             imprimirSalida(n, esMenor, t, x, y, z);
             free(valeo);
         }

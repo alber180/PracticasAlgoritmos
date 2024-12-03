@@ -17,27 +17,29 @@ int main()
     printf("Vector descendente:\n");
     ordenarTest(descendente);
     printf("\nInsertar Monticulo:\n");
-    for (i = 0; i < 3; i++)
+    /*
+    for (i = 0; i < 2; i++)
     {
         medirInsertarMonticulo();
     }
     printf("\nCrear Monticulo:\n");
-    for (i = 0; i < 3; i++)
+    for (i = 0; i < 2; i++)
     {
         medirCrearMonticulo();
     }
+    */
     printf("\nORDENACION POR MONTICULOS ASCENDENTE\n");
-    for (i = 0; i < 3; i++)
+    for (i = 0; i < 1; i++)
     {
         montAscendente();
     }
     printf("\nORDENACION POR MONTICULOS ALEATORIO\n");
-    for (i = 0; i < 3; i++)
+    for (i = 0; i < 1; i++)
     {
         montAleatorio();
     }
     printf("\nORDENACION POR MONTICULOS DESCENDENTE\n");
-    for (i = 0; i < 3; i++)
+    for (i = 0; i < 1; i++)
     {
         montDescendente();
     }

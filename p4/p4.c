@@ -1,52 +1,49 @@
 #include "funciones.h"
 #define N 10
+#define M 5
 
 void ordenarTest(void (*llenar)(int[], int));
 void funcionesTest();
-
 int main()
 {
     int i;
     inicializar_semilla();
     funcionesTest();
-
-    printf("Vector ascendente:\n");
+    printf("\nTest de ordenacion por monticulos:\nVector ascendente:\n");
     ordenarTest(ascendente);
-    printf("Vector aleatorio:\n");
+    printf("\nVector aleatorio:\n");
     ordenarTest(aleatorio);
-    printf("Vector descendente:\n");
+    printf("\nVector descendente:\n");
     ordenarTest(descendente);
-    printf("\nInsertar Monticulo:\n");
-    
+
+    printf("\ninsertarMonticulo:\n");
     for (i = 0; i < 5; i++)
     {
         medirInsertarMonticulo();
     }
-    printf("\nCrear Monticulo:\n");
+    printf("\ncrearMonticulo:\n");
     for (i = 0; i < 5; i++)
     {
         medirCrearMonticulo();
     }
-    
-    printf("\nORDENACION POR MONTICULOS ASCENDENTE\n");
+
+    printf("\nOrdenacion por monticulos de vector ascendente\n");
     for (i = 0; i < 5; i++)
     {
         montAscendente();
     }
-    printf("\nORDENACION POR MONTICULOS ALEATORIO\n");
+    printf("\nOrdenacion por monticulos de vector aleatorio\n");
     for (i = 0; i < 5; i++)
     {
         montAleatorio();
     }
-    printf("\nORDENACION POR MONTICULOS DESCENDENTE\n");
+    printf("\nOrdenacion por monticulos de vector descendente\n");
     for (i = 0; i < 5; i++)
     {
         montDescendente();
     }
-
     return 0;
 }
-
 void ordenarTest(void (*llenar)(int[], int))
 {
     int *v;
@@ -62,7 +59,6 @@ void ordenarTest(void (*llenar)(int[], int))
     free(m);
     free(v);
 }
-
 void funcionesTest()
 {
     int *v;
@@ -70,17 +66,19 @@ void funcionesTest()
     iniMonticulo(&m);
     v = (int *)malloc(N * sizeof(int));
     aleatorio(v, N - 1);
-    printf("Vector inicial:\n");
+    /* Llenamos un vector con N-1 elementos aleatorios porque mas adelante
+    probaremos insertar un nuevo elemento */
+    printf("\nTest de funciones de monticulo:\nVector inicial:\n");
     mostrarVector(v, N - 1);
     crearMonticulo(v, m, N - 1);
-    printf("Vector insertado en el monticulo:\n");
+    printf("\nVector insertado en el monticulo:\n");
     mostrarVector(m->vector, N - 1);
-    insertarMonticulo(m, 5);
-    printf("Insertamos el numero 5, por ejemplo:\n");
+    insertarMonticulo(m, M);
+    printf("\nInsertamos el numero %d:\n", M);
     mostrarVector(m->vector, N);
-    printf("Consultamos el menor: %d\n", consultarMenor(m));
+    printf("\nConsultamos el menor: %d\n", consultarMenor(m));
     quitarMenor(m);
-    printf("Ahora quitamos el menor:\n");
+    printf("\nAhora quitamos el menor:\n");
     mostrarVector(m->vector, N - 1);
     free(m);
     free(v);

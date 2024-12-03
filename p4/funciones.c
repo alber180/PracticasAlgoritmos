@@ -14,7 +14,7 @@ void inicializar_semilla()
 }
 
 void aleatorio(int v[], int n)
-{ /* se generan números pseudoaleatorio entre -n y +n */
+{ // Generamos un vector de números pseudoaleatorio entre -n y +n
     int i, m = 2 * n + 1;
     for (i = 0; i < n; i++)
         v[i] = (rand() % m) - n;
@@ -22,6 +22,7 @@ void aleatorio(int v[], int n)
 
 void ascendente(int v[], int n)
 {
+    // Generamos un vector de números de 0 a n-1
     int i;
     for (i = 0; i < n; i++)
         v[i] = i;
@@ -29,6 +30,7 @@ void ascendente(int v[], int n)
 
 void descendente(int v[], int n)
 {
+    // Generamos un vector de números de n-1 a 0
     int i;
     for (i = 0; i < n; i++)
         v[i] = n - 1 - i;
@@ -42,11 +44,12 @@ void mostrarVector(int v[], int n)
     {
         printf(", %d", v[i]);
     }
-    printf("]\n\n");
+    printf("]\n");
 }
 
 bool ordenado(int v[], int n)
 {
+    // Funcion para comprobar si un vector esta ordenado
     int i;
     for (i = 1; i < n; i++)
     {
@@ -58,6 +61,7 @@ bool ordenado(int v[], int n)
 
 void preguntaOrdenado(bool ord)
 {
+    // Funcion que muestra por pantalla si el vector esta ordenado
     if (ord)
         printf("Ordenado\n");
     else
@@ -75,7 +79,6 @@ void intercambiar(int *v, int *u)
 void hundir(pmonticulo m, int i)
 {
     int j, hijoIzq, hijoDer;
-
     do
     {
         hijoIzq = 2 * i + 1;
@@ -108,6 +111,7 @@ void flotar(pmonticulo m, int i)
 
 void iniMonticulo(pmonticulo *m)
 {
+    // Funcion para asignar espacio de memoria al monticulo
     *m = malloc(sizeof(struct monticulo));
     if (*m == NULL)
     {
@@ -121,7 +125,7 @@ void insertarMonticulo(pmonticulo m, int x)
 {
     if (m->ultimo == TAM)
     {
-        perror("Monticulo lleno");
+        printf("Monticulo lleno\n");
     }
     else
     {
@@ -135,7 +139,7 @@ void quitarMenor(pmonticulo m)
 {
     if (m->ultimo == -1)
     {
-        fprintf(stderr, "Monticulo vacio\n");
+        printf("Monticulo vacio\n");
     }
     else
     {
@@ -158,17 +162,19 @@ void crearMonticulo(int v[], pmonticulo m, int n)
     int i, j;
     if (n > TAM)
     {
-        perror("El array es demasiado grande para el montículo");
-        return;
+        printf("El array es demasiado grande para el montículo\n");
     }
-    for (i = 0; i < n; i++)
+    else
     {
-        m->vector[i] = v[i];
-    }
-    m->ultimo = n - 1;
-    for (j = (m->ultimo / 2); j >= 0; j--)
-    {
-        hundir(m, j);
+        for (i = 0; i < n; i++)
+        {
+            m->vector[i] = v[i];
+        }
+        m->ultimo = n - 1;
+        for (j = (m->ultimo / 2); j >= 0; j--)
+        {
+            hundir(m, j);
+        }
     }
 }
 
@@ -176,15 +182,16 @@ void ordenarPorMonticulos(int v[], pmonticulo m, int n)
 {
     int i;
     crearMonticulo(v, m, n);
-    for (i = 1; i <= n; i++)
+    for (i = 0; i < n; i++)
     {
-        v[i - 1] = consultarMenor(m);
+        v[i] = consultarMenor(m);
         quitarMenor(m);
     }
 }
 
 void imprimirSalida(int n, bool esMenor, double t, double x, double y, double z)
 {
+    // Funcion para mostrar cada fila de la tabla
     if (esMenor)
         printf("%12d %13.3f*%15.6f%15.6f%15.6f\n", n, t, x, y, z);
     else
@@ -245,14 +252,14 @@ double datos(void (*llenar)(int[], int),
              void (*operacionMonticulo)(int[], pmonticulo, int),
              bool *esMenor, int v[], int n, int k)
 {
-    int i, vector[n];
+    int i;
     double ta, tb, t1, t2, t;
     pmonticulo m;
     *esMenor = false;
     iniMonticulo(&m);
-    llenar(vector, n);
+    llenar(v, n);
     ta = microsegundos();
-    operacionMonticulo(vector, m, n);
+    operacionMonticulo(v, m, n);
     tb = microsegundos();
     t = tb - ta;
     if (t < 500)
@@ -261,15 +268,15 @@ double datos(void (*llenar)(int[], int),
         ta = microsegundos();
         for (i = 0; i < k; i++)
         {
-            llenar(vector, n);
-            operacionMonticulo(vector, m, n);
+            llenar(v, n);
+            operacionMonticulo(v, m, n);
         }
         tb = microsegundos();
         t1 = tb - ta;
         ta = microsegundos();
         for (i = 0; i < k; i++)
         {
-            llenar(vector, n);
+            llenar(v, n);
         }
         tb = microsegundos();
         t2 = tb - ta;

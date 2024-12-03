@@ -26,6 +26,12 @@ void montAleatorio();
 bool ordenado(int v[], int n);
 void preguntaOrdenado(bool ord);
 void mostrarVector(int v[], int n);
+void crearMonticulo(int v[], pmonticulo m, int n);
 void ordenarPorMonticulos(int v[], pmonticulo m, int n);
 void iniMonticulo(pmonticulo *m);
+void insertarMonticulo(pmonticulo m, int x);
+void quitarMenor(pmonticulo m);
+int consultarMenor(const pmonticulo m);
+void medirCrearMonticulo();
+void medirInsertarMonticulo();
 #endif

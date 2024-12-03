@@ -42,7 +42,7 @@ void mostrarVector(int v[], int n)
     {
         printf(", %d", v[i]);
     }
-    printf("]\n");
+    printf("]\n\n");
 }
 
 bool ordenado(int v[], int n)
@@ -153,7 +153,7 @@ int consultarMenor(const pmonticulo m)
     return m->vector[0];
 }
 
-void crearMonticulo(pmonticulo m, int v[], int n)
+void crearMonticulo(int v[], pmonticulo m, int n)
 {
     int i, j;
     if (n > TAM)
@@ -175,7 +175,7 @@ void crearMonticulo(pmonticulo m, int v[], int n)
 void ordenarPorMonticulos(int v[], pmonticulo m, int n)
 {
     int i;
-    crearMonticulo(m, v, n);
+    crearMonticulo(v, m, n);
     for (i = 1; i <= n; i++)
     {
         v[i - 1] = consultarMenor(m);
@@ -197,24 +197,23 @@ void mostrarCabecera()
            "t(n)/g(n)", "t(n)/h(n)");
 }
 
-double datos(void (*llenar)(int[], int), bool *esMenor, int v[], int n, int k)
+double t_insertarMonticulo(void (*llenar)(int[], int), bool *esMenor,
+                           int v[], int n, int k)
 {
-    int i;
+    int i, j;
     double ta, tb, t1, t2, t;
     pmonticulo m;
     *esMenor = false;
     iniMonticulo(&m);
-    ta = microsegundos();
     llenar(v, n);
-    ordenarPorMonticulos(v, m, n);
-    tb = microsegundos();
-    t1 = tb - ta;
     ta = microsegundos();
-    llenar(v, n);
-    crearMonticulo(m, v, n);
+    for (i = 0; i < n; i++)
+    {
+        insertarMonticulo(m, v[i]);
+    }
     tb = microsegundos();
-    t2 = tb - ta;
-    t = t1 - t2;
+    m->ultimo = -1;
+    t = tb - ta;
     if (t < 500)
     {
         *esMenor = true;
@@ -222,7 +221,9 @@ double datos(void (*llenar)(int[], int), bool *esMenor, int v[], int n, int k)
         for (i = 0; i < k; i++)
         {
             llenar(v, n);
-            ordenarPorMonticulos(v, m, n);
+            for (j = 0; j < n; j++)
+                insertarMonticulo(m, v[j]);
+            m->ultimo = -1;
         }
         tb = microsegundos();
         t1 = tb - ta;
@@ -230,7 +231,7 @@ double datos(void (*llenar)(int[], int), bool *esMenor, int v[], int n, int k)
         for (i = 0; i < k; i++)
         {
             llenar(v, n);
-            crearMonticulo(m, v, n);
+            m->ultimo = -1;
         }
         tb = microsegundos();
         t2 = tb - ta;
@@ -238,6 +239,92 @@ double datos(void (*llenar)(int[], int), bool *esMenor, int v[], int n, int k)
     }
     free(m);
     return t;
+}
+
+double datos(void (*llenar)(int[], int),
+             void (*operacionMonticulo)(int[], pmonticulo, int),
+             bool *esMenor, int v[], int n, int k)
+{
+    int i, vector[n];
+    double ta, tb, t1, t2, t;
+    pmonticulo m;
+    *esMenor = false;
+    iniMonticulo(&m);
+    llenar(vector, n);
+    ta = microsegundos();
+    operacionMonticulo(vector, m, n);
+    tb = microsegundos();
+    t = tb - ta;
+    if (t < 500)
+    {
+        *esMenor = true;
+        ta = microsegundos();
+        for (i = 0; i < k; i++)
+        {
+            llenar(vector, n);
+            operacionMonticulo(vector, m, n);
+        }
+        tb = microsegundos();
+        t1 = tb - ta;
+        ta = microsegundos();
+        for (i = 0; i < k; i++)
+        {
+            llenar(vector, n);
+        }
+        tb = microsegundos();
+        t2 = tb - ta;
+        t = (t1 - t2) / k;
+    }
+    free(m);
+    return t;
+}
+
+void medirCrearMonticulo()
+{
+    int n, *valeo, k;
+    bool esMenor = false;
+    double x, y, z, t;
+    k = 10000;
+    mostrarCabecera();
+    for (n = 500; n <= 256000; n *= 2)
+    {
+        valeo = (int *)malloc(n * sizeof(int));
+        if (valeo == NULL)
+            printf("Error: no se pudo asignar memoria\n");
+        else
+        {
+            t = datos(aleatorio, crearMonticulo, &esMenor, valeo, n, k);
+            x = t / pow(n, 0.8);
+            y = t / n;
+            z = t / pow(n, 1.2);
+            imprimirSalida(n, esMenor, t, x, y, z);
+            free(valeo);
+        }
+    }
+}
+
+void medirInsertarMonticulo()
+{
+    int n, *valeo, k;
+    bool esMenor = false;
+    double x, y, z, t;
+    k = 10000;
+    mostrarCabecera();
+    for (n = 500; n <= 256000; n *= 2)
+    {
+        valeo = (int *)malloc(n * sizeof(int));
+        if (valeo == NULL)
+            printf("Error: no se pudo asignar memoria\n");
+        else
+        {
+            t = t_insertarMonticulo(aleatorio, &esMenor, valeo, n, k);
+            x = t / pow(n, 0.8);
+            y = t / (n * log(n));
+            z = t / pow(n, 1.2);
+            imprimirSalida(n, esMenor, t, x, y, z);
+            free(valeo);
+        }
+    }
 }
 
 void montDescendente()
@@ -249,14 +336,14 @@ void montDescendente()
     k = 10000;
     mostrarCabecera();
 
-    for (n = 500; n <= 32000; n *= 2)
+    for (n = 500; n <= 256000; n *= 2)
     {
         vdesc = (int *)malloc(n * sizeof(int));
         if (vdesc == NULL)
             printf("Error: no se pudo asignar memoria\n");
         else
         {
-            t = datos(descendente, &esMenor, vdesc, n, k);
+            t = datos(descendente, ordenarPorMonticulos, &esMenor, vdesc, n, k);
             x = t / n;
             y = t / (n * log(n));
             z = t / pow(n, 1.2);
@@ -274,14 +361,14 @@ void montAscendente()
     double x, y, z, t;
     k = 10000;
     mostrarCabecera();
-    for (n = 500; n <= 32000; n *= 2)
+    for (n = 500; n <= 256000; n *= 2)
     {
         vasc = (int *)malloc(n * sizeof(int));
         if (vasc == NULL)
             printf("Error: no se pudo asignar memoria\n");
         else
         {
-            t = datos(ascendente, &esMenor, vasc, n, k);
+            t = datos(ascendente, ordenarPorMonticulos, &esMenor, vasc, n, k);
             x = t / n;
             y = t / (n * log(n));
             z = t / pow(n, 1.5);
@@ -299,14 +386,14 @@ void montAleatorio()
     k = 10000;
     mostrarCabecera();
 
-    for (n = 500; n <= 32000; n *= 2)
+    for (n = 500; n <= 256000; n *= 2)
     {
         valeo = (int *)malloc(n * sizeof(int));
         if (valeo == NULL)
             printf("Error: no se pudo asignar memoria\n");
         else
         {
-            t = datos(aleatorio, &esMenor, valeo, n, k);
+            t = datos(aleatorio, ordenarPorMonticulos, &esMenor, valeo, n, k);
             x = t / n;
             y = t / (n * log(n));
             z = t / pow(n, 1.5);

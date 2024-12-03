@@ -325,7 +325,7 @@ void medirInsertarMonticulo()
         else
         {
             t = t_insertarMonticulo(descendente, &esMenor, vdesc, n, k);
-            x = t / pow(n, 0.8);
+            x = t / pow(n, 0.9);
             y = t / (n * log(n));
             z = t / pow(n, 1.2);
             imprimirSalida(n, esMenor, t, x, y, z);

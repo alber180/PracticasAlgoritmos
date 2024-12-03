@@ -15,33 +15,16 @@ int main()
     ordenarTest(aleatorio);
     printf("\nVector descendente:\n");
     ordenarTest(descendente);
-
     printf("\ninsertarMonticulo:\n");
-    for (i = 0; i < 5; i++)
-    {
-        medirInsertarMonticulo();
-    }
+    medirInsertarMonticulo();
     printf("\ncrearMonticulo:\n");
-    for (i = 0; i < 5; i++)
-    {
-        medirCrearMonticulo();
-    }
-
+    medirCrearMonticulo();
     printf("\nOrdenacion por monticulos de vector ascendente\n");
-    for (i = 0; i < 5; i++)
-    {
-        montAscendente();
-    }
+    montAscendente();
     printf("\nOrdenacion por monticulos de vector aleatorio\n");
-    for (i = 0; i < 5; i++)
-    {
-        montAleatorio();
-    }
+    montAleatorio();
     printf("\nOrdenacion por monticulos de vector descendente\n");
-    for (i = 0; i < 5; i++)
-    {
-        montDescendente();
-    }
+    montDescendente();
     return 0;
 }
 void ordenarTest(void (*llenar)(int[], int))

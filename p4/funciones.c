@@ -371,7 +371,7 @@ void montAscendente()
             t = datos(ascendente, ordenarPorMonticulos, &esMenor, vasc, n, k);
             x = t / n;
             y = t / (pow(n, 0.99) * log(n));
-            z = t / pow(n, 1.3);
+            z = t / pow(n, 1.2);
             imprimirSalida(n, esMenor, t, x, y, z);
             free(vasc);
         }
@@ -396,7 +396,7 @@ void montAleatorio()
             t = datos(aleatorio, ordenarPorMonticulos, &esMenor, valeo, n, k);
             x = t / n;
             y = t / (n * log(n));
-            z = t / pow(n, 1.3);
+            z = t / pow(n, 1.2);
             imprimirSalida(n, esMenor, t, x, y, z);
             free(valeo);
         }

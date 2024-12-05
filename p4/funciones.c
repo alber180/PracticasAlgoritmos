@@ -205,13 +205,11 @@ void mostrarCabecera()
 }
 
 double t_insertarMonticulo(void (*llenar)(int[], int), bool *esMenor,
-                           int v[], int n, int k)
+                           int v[], int n, int k, pmonticulo m)
 {
     int i, j;
     double ta, tb, t1, t2, t;
-    pmonticulo m;
     *esMenor = false;
-    iniMonticulo(&m);
     llenar(v, n);
     ta = microsegundos();
     for (i = 0; i < n; i++)
@@ -244,19 +242,16 @@ double t_insertarMonticulo(void (*llenar)(int[], int), bool *esMenor,
         t2 = tb - ta;
         t = (t1 - t2) / k;
     }
-    free(m);
     return t;
 }
 
 double datos(void (*llenar)(int[], int),
              void (*operacionMonticulo)(int[], pmonticulo, int),
-             bool *esMenor, int v[], int n, int k)
+             bool *esMenor, int v[], int n, int k, pmonticulo m)
 {
     int i;
     double ta, tb, t1, t2, t;
-    pmonticulo m;
     *esMenor = false;
-    iniMonticulo(&m);
     llenar(v, n);
     ta = microsegundos();
     operacionMonticulo(v, m, n);
@@ -282,130 +277,142 @@ double datos(void (*llenar)(int[], int),
         t2 = tb - ta;
         t = (t1 - t2) / k;
     }
-    free(m);
     return t;
 }
 
 void medirCrearMonticulo()
 {
     int n, *valeo, k;
+    pmonticulo m;
     bool esMenor = false;
     double x, y, z, t;
+    iniMonticulo(&m);
     k = 10000;
+    valeo = (int *)malloc(TAM * sizeof(int));
     mostrarCabecera();
     for (n = 500; n <= 256000; n *= 2)
     {
-        valeo = (int *)malloc(n * sizeof(int));
         if (valeo == NULL)
             printf("Error: no se pudo asignar memoria\n");
         else
         {
-            t = datos(aleatorio, crearMonticulo, &esMenor, valeo, n, k);
+            t = datos(aleatorio, crearMonticulo, &esMenor, valeo, n, k, m);
             x = t / pow(n, 0.9);
             y = t / n;
             z = t / pow(n, 1.1);
             imprimirSalida(n, esMenor, t, x, y, z);
-            free(valeo);
         }
     }
+    free(valeo);
+    free(m);
 }
 
 void medirInsertarMonticulo()
 {
     int n, *vdesc, k;
+    pmonticulo m;
     bool esMenor = false;
     double x, y, z, t;
     k = 10000;
+    iniMonticulo(&m);
+    vdesc = (int *)malloc(TAM * sizeof(int));
     mostrarCabecera();
     for (n = 500; n <= 256000; n *= 2)
     {
-        vdesc = (int *)malloc(n * sizeof(int));
         if (vdesc == NULL)
             printf("Error: no se pudo asignar memoria\n");
         else
         {
-            t = t_insertarMonticulo(descendente, &esMenor, vdesc, n, k);
+            t = t_insertarMonticulo(descendente, &esMenor, vdesc, n, k, m);
             x = t / pow(n, 0.9);
             y = t / (n * log(n));
             z = t / pow(n, 1.2);
             imprimirSalida(n, esMenor, t, x, y, z);
-            free(vdesc);
         }
     }
+    free(vdesc);
+    free(m);
 }
 
 void montDescendente()
 {
     int n;
     int *vdesc, k;
+    pmonticulo m;
     bool esMenor = false;
     double x, y, z, t;
     k = 10000;
+    iniMonticulo(&m);
+    vdesc = (int *)malloc(TAM * sizeof(int));
     mostrarCabecera();
-
     for (n = 500; n <= 256000; n *= 2)
     {
-        vdesc = (int *)malloc(n * sizeof(int));
         if (vdesc == NULL)
             printf("Error: no se pudo asignar memoria\n");
         else
         {
-            t = datos(descendente, ordenarPorMonticulos, &esMenor, vdesc, n, k);
+            t = datos(descendente, ordenarPorMonticulos, &esMenor, vdesc, n, k, m);
             x = t / n;
             y = t / (pow(n, 0.98) * log(n));
             z = t / pow(n, 1.2);
             imprimirSalida(n, esMenor, t, x, y, z);
-            free(vdesc);
         }
     }
+    free(vdesc);
+    free(m);
 }
 
 void montAscendente()
 {
     int n;
     int *vasc, k;
+    pmonticulo m;
     bool esMenor;
     double x, y, z, t;
     k = 10000;
+    iniMonticulo(&m);
+    vasc = (int *)malloc(TAM * sizeof(int));
     mostrarCabecera();
     for (n = 500; n <= 256000; n *= 2)
     {
-        vasc = (int *)malloc(n * sizeof(int));
         if (vasc == NULL)
             printf("Error: no se pudo asignar memoria\n");
         else
         {
-            t = datos(ascendente, ordenarPorMonticulos, &esMenor, vasc, n, k);
+            t = datos(ascendente, ordenarPorMonticulos, &esMenor, vasc, n, k, m);
             x = t / n;
             y = t / (pow(n, 0.99) * log(n));
             z = t / pow(n, 1.2);
             imprimirSalida(n, esMenor, t, x, y, z);
-            free(vasc);
         }
     }
+    free(vasc);
+    free(m);
 }
 
 void montAleatorio()
 {
     int n, *valeo, k;
     bool esMenor = false;
+    pmonticulo m;
     double x, y, z, t;
     k = 10000;
+    iniMonticulo(&m);
+    valeo = (int *)malloc(TAM * sizeof(int));
     mostrarCabecera();
-
     for (n = 500; n <= 256000; n *= 2)
     {
-        valeo = (int *)malloc(n * sizeof(int));
         if (valeo == NULL)
             printf("Error: no se pudo asignar memoria\n");
         else
         {
-            t = datos(aleatorio, ordenarPorMonticulos, &esMenor, valeo, n, k);
+            t = datos(aleatorio, ordenarPorMonticulos, &esMenor, valeo, n, k, m);
             x = t / n;
             y = t / (n * log(n));
             z = t / pow(n, 1.2);
             imprimirSalida(n, esMenor, t, x, y, z);
-            free(valeo);
         }
     }
+    free(valeo);
+    free(m);
 }

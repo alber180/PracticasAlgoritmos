@@ -6,7 +6,6 @@ void ordenarTest(void (*llenar)(int[], int));
 void funcionesTest();
 int main()
 {
-    int i;
     inicializar_semilla();
     funcionesTest();
     printf("\nTest de ordenacion por monticulos:\nVector ascendente:\n");

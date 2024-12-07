@@ -284,8 +284,8 @@ void medirCrearMonticulo()
 {
     int n, *valeo, k;
     pmonticulo m;
-    bool esMenor = false;
     double x, y, z, t;
+    bool esMenor;
     iniMonticulo(&m);
     k = 10000;
     valeo = (int *)malloc(TAM * sizeof(int));
@@ -311,8 +311,8 @@ void medirInsertarMonticulo()
 {
     int n, *vdesc, k;
     pmonticulo m;
-    bool esMenor = false;
     double x, y, z, t;
+    bool esMenor;
     k = 10000;
     iniMonticulo(&m);
     vdesc = (int *)malloc(TAM * sizeof(int));
@@ -339,8 +339,8 @@ void montDescendente()
     int n;
     int *vdesc, k;
     pmonticulo m;
-    bool esMenor = false;
     double x, y, z, t;
+    bool esMenor;
     k = 10000;
     iniMonticulo(&m);
     vdesc = (int *)malloc(TAM * sizeof(int));
@@ -368,8 +368,8 @@ void montAscendente()
     int n;
     int *vasc, k;
     pmonticulo m;
-    bool esMenor;
     double x, y, z, t;
+    bool esMenor;
     k = 10000;
     iniMonticulo(&m);
     vasc = (int *)malloc(TAM * sizeof(int));
@@ -395,9 +395,9 @@ void montAscendente()
 void montAleatorio()
 {
     int n, *valeo, k;
-    bool esMenor = false;
     pmonticulo m;
     double x, y, z, t;
+    bool esMenor;
     k = 10000;
     iniMonticulo(&m);
     valeo = (int *)malloc(TAM * sizeof(int));

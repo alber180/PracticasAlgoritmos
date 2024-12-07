@@ -351,7 +351,8 @@ void montDescendente()
             printf("Error: no se pudo asignar memoria\n");
         else
         {
-            t = datos(descendente, ordenarPorMonticulos, &esMenor, vdesc, n, k, m);
+            t = datos(descendente, ordenarPorMonticulos,
+                      &esMenor, vdesc, n, k, m);
             x = t / n;
             y = t / (pow(n, 0.98) * log(n));
             z = t / pow(n, 1.2);
@@ -379,7 +380,8 @@ void montAscendente()
             printf("Error: no se pudo asignar memoria\n");
         else
         {
-            t = datos(ascendente, ordenarPorMonticulos, &esMenor, vasc, n, k, m);
+            t = datos(ascendente, ordenarPorMonticulos,
+                      &esMenor, vasc, n, k, m);
             x = t / n;
             y = t / (pow(n, 0.99) * log(n));
             z = t / pow(n, 1.2);
@@ -406,7 +408,8 @@ void montAleatorio()
             printf("Error: no se pudo asignar memoria\n");
         else
         {
-            t = datos(aleatorio, ordenarPorMonticulos, &esMenor, valeo, n, k, m);
+            t = datos(aleatorio, ordenarPorMonticulos,
+                      &esMenor, valeo, n, k, m);
             x = t / n;
             y = t / (n * log(n));
             z = t / pow(n, 1.2);
